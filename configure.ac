@@ -210,7 +210,8 @@ then
 -Wno-write-strings"
 
     # For popt/*.c, we disable unused variable warnings.
-    POPT_CFLAGS="-Wno-unused"
+    # When using Apple GCC/Clang you have to explicitly disable unused parameters.
+    POPT_CFLAGS="-Wno-unused -Wno-unused-parameter"
 
     AC_MSG_NOTICE([Adding gcc options: $CFLAGS])
 fi
@@ -254,7 +255,7 @@ AC_C_BIGENDIAN
 
 # Some of these are needed by popt (or other libraries included in the future).
 
-AC_CHECK_HEADERS([unistd.h sys/types.h sys/sendfile.h sys/signal.h])
+AC_CHECK_HEADERS([unistd.h sys/types.h sys/sendfile.h])
 AC_CHECK_HEADERS([ctype.h sys/resource.h sys/socket.h sys/select.h])
 AC_CHECK_HEADERS([netinet/in.h], [], [],
 [#if HAVE_SYS_TYPES_H

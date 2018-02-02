@@ -1,4 +1,5 @@
 # distcc -- a free distributed C/C++ compiler system
+[![Build Status](https://travis-ci.org/distcc/distcc.svg?branch=master)](https://travis-ci.org/distcc/distcc)
 
 by Martin Pool
 
@@ -70,8 +71,8 @@ typical case, three machines are 2.6 times faster than one.
 distcc is distributed under the GNU General Public Licence v2.
 
 ## Resources
-
+ * [Continuous Integration System](https://travis-ci.org/distcc/distcc)(Travis CI)
+ 
  * [Mailing list](https://lists.samba.org/mailman/listinfo/distcc)
-
+ 
  * [Stack Overflow questions](http://stackoverflow.com/questions/tagged/distcc)
-

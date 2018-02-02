@@ -51,6 +51,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <poll.h>
 #include <signal.h>
 
 #include <sys/types.h>
@@ -58,10 +59,11 @@
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <sys/resource.h>
-#include <sys/poll.h>
 
 #ifdef __CYGWIN__
-    #define NOGDI
+    /* #define NOGDI */
+    #define RC_INVOKED
+    #define NOWINRES
     #include <windows.h>
 #endif
 
