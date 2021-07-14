@@ -46,6 +46,7 @@
 #include "netutil.h"
 #include "fcntl.h"
 #include "daemon.h"
+#include "snprintf.h"
 
 int dcc_statspipe[2];
 
@@ -416,7 +417,7 @@ dcc_free_space %d MB\n\
     if (dcc_check_client((struct sockaddr *)&cli_addr,
                          (int) cli_len,
                          opt_allowed) == 0) {
-        reply_len = snprintf(reply, 2048, replytemplate,
+        reply_len = snprintf_(reply, 2048, replytemplate,
                                dcc_stats.counters[STATS_TCP_ACCEPT],
                                dcc_stats.counters[STATS_REJ_BAD_REQ],
                                dcc_stats.counters[STATS_REJ_OVERLOAD],

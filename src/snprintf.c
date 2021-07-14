@@ -812,32 +812,27 @@ static void dopr_outch(char *buffer, size_t *currlen, size_t maxlen, char c)
     (*currlen)++;
 }
 
- int vsnprintf (char *str, size_t count, const char *fmt, va_list args)
+ int vsnprintf_ (char *str, size_t count, const char *fmt, va_list args)
 {
     return dopr(str, count, fmt, args);
 }
+#else
+ int vsnprintf_ (char *str, size_t count, const char *fmt, va_list args)
+{
+    return vsnprintf(str, count, fmt, args);
+}
 #endif
 
-/* yes this really must be a ||. Don't muck wiith this (tridge)
- *
- * The logic for these two is that we need our own definition if the
- * OS *either* has no definition of *sprintf, or if it does have one
- * that doesn't work properly according to the autoconf test.  Perhaps
- * these should really be smb_snprintf to avoid conflicts with buggy
- * linkers? -- mbp
- */
-#if !defined(HAVE_SNPRINTF) || !defined(HAVE_C99_VSNPRINTF)
- int snprintf(char *str,size_t count,const char *fmt,...)
+ int snprintf_(char *str,size_t count,const char *fmt,...)
 {
     size_t ret;
     va_list ap;
 
     va_start(ap, fmt);
-    ret = vsnprintf(str, count, fmt, ap);
+    ret = vsnprintf_(str, count, fmt, ap);
     va_end(ap);
     return ret;
 }
-#endif
 #endif /* HAVE_SNPRINTF, and everything */
 
 #ifndef HAVE_VASPRINTF
@@ -847,7 +842,7 @@ static void dopr_outch(char *buffer, size_t *currlen, size_t maxlen, char c)
     va_list ap2;
 
     VA_COPY(ap2, ap);
-    ret = vsnprintf(NULL, 0, format, ap2);
+    ret = vsnprintf_(NULL, 0, format, ap2);
     VA_COPY_END(ap2);
     if (ret <= 0) return ret;
 
@@ -855,7 +850,7 @@ static void dopr_outch(char *buffer, size_t *currlen, size_t maxlen, char c)
     if (!*ptr) return -1;
 
     VA_COPY(ap2, ap);
-    ret = vsnprintf(*ptr, ret+1, format, ap2);
+    ret = vsnprintf_(*ptr, ret+1, format, ap2);
     VA_COPY_END(ap2);
 
     return ret;
@@ -962,8 +957,8 @@ int checked_asprintf(char **ptr, const char *format, ...)
 
     for (x = 0; fp_fmt[x] ; x++) {
         for (y = 0; fp_nums[y] != 0 ; y++) {
-            int l1 = snprintf(NULL, 0, fp_fmt[x], fp_nums[y]);
-            int l2 = snprintf(buf1, sizeof(buf1), fp_fmt[x], fp_nums[y]);
+            int l1 = snprintf_(NULL, 0, fp_fmt[x], fp_nums[y]);
+            int l2 = snprintf_(buf1, sizeof(buf1), fp_fmt[x], fp_nums[y]);
             sprintf (buf2, fp_fmt[x], fp_nums[y]);
             if (strcmp (buf1, buf2)) {
                 printf("snprintf doesn't match Format: %s\n\tsnprintf = [%s]\n\t sprintf = [%s]\n",
@@ -980,8 +975,8 @@ int checked_asprintf(char **ptr, const char *format, ...)
 
     for (x = 0; int_fmt[x] ; x++) {
         for (y = 0; int_nums[y] != 0 ; y++) {
-            int l1 = snprintf(NULL, 0, int_fmt[x], int_nums[y]);
-            int l2 = snprintf(buf1, sizeof(buf1), int_fmt[x], int_nums[y]);
+            int l1 = snprintf_(NULL, 0, int_fmt[x], int_nums[y]);
+            int l2 = snprintf_(buf1, sizeof(buf1), int_fmt[x], int_nums[y]);
             sprintf (buf2, int_fmt[x], int_nums[y]);
             if (strcmp (buf1, buf2)) {
                 printf("snprintf doesn't match Format: %s\n\tsnprintf = [%s]\n\t sprintf = [%s]\n",
@@ -998,8 +993,8 @@ int checked_asprintf(char **ptr, const char *format, ...)
 
     for (x = 0; str_fmt[x] ; x++) {
         for (y = 0; str_vals[y] != 0 ; y++) {
-            int l1 = snprintf(NULL, 0, str_fmt[x], str_vals[y]);
-            int l2 = snprintf(buf1, sizeof(buf1), str_fmt[x], str_vals[y]);
+            int l1 = snprintf_(NULL, 0, str_fmt[x], str_vals[y]);
+            int l2 = snprintf_(buf1, sizeof(buf1), str_fmt[x], str_vals[y]);
             sprintf (buf2, str_fmt[x], str_vals[y]);
             if (strcmp (buf1, buf2)) {
                 printf("snprintf doesn't match Format: %s\n\tsnprintf = [%s]\n\t sprintf = [%s]\n",
@@ -1022,7 +1017,7 @@ int checked_asprintf(char **ptr, const char *format, ...)
         for (x=0; x<100; x++) {
             double p = pow(10, x);
             double r = v0*p;
-            snprintf(buf1, sizeof(buf1), "%1.1f", r);
+            snprintf_(buf1, sizeof(buf1), "%1.1f", r);
             sprintf(buf2,                "%1.1f", r);
             if (strcmp(buf1, buf2)) {
                 printf("we seem to support %d digits\n", x-1);

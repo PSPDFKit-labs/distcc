@@ -27,15 +27,11 @@
 #if !HAVE_DECL_VASPRINTF
 int vasprintf(char **ptr, const char *format, va_list ap);
 #endif
-#if !HAVE_DECL_SNPRINTF
-int snprintf(char *,size_t ,const char *, ...) PRINTF_ATTRIBUTE(3,4);
-#endif
+int snprintf_(char *,size_t ,const char *, ...) PRINTF_ATTRIBUTE(3,4);
 #if !HAVE_DECL_ASPRINTF
 int asprintf(char **,const char *, ...) PRINTF_ATTRIBUTE(2,3);
 #endif
 
-#if !HAVE_DECL_VSNPRINTF
-int vsnprintf(char *, size_t, const char *, va_list);
-#endif
+int vsnprintf_(char *, size_t, const char *, va_list);
 
 int checked_asprintf(char **, const char *, ...) PRINTF_ATTRIBUTE(2,3);

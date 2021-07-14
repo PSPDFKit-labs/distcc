@@ -172,7 +172,7 @@ int dcc_connect_by_name(const char *host, int port, int *p_fd)
     rs_trace("connecting to %s port %d", host, port);
 
     /* Unfortunately for us, getaddrinfo wants the port (service) as a string */
-    snprintf(portname, sizeof portname, "%d", port);
+    snprintf_(portname, sizeof portname, "%d", port);
 
     memset(&hints, 0, sizeof(hints));
     /* set-up hints structure */

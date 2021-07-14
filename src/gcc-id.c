@@ -97,7 +97,7 @@ char* dcc_make_dnssd_subtype(char *stype, size_t nbytes, const char *v, const ch
     strip_bad_chars(version);
     strip_bad_chars(machine);
 
-    snprintf(stype, nbytes, "_%s--%s._sub." DCC_DNS_SERVICE_TYPE, machine, version);
+    snprintf_(stype, nbytes, "_%s--%s._sub." DCC_DNS_SERVICE_TYPE, machine, version);
     stype[nbytes-1] = 0;
 
     return stype;
