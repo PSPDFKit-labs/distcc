@@ -76,8 +76,8 @@ static void register_stuff(struct context *ctx) {
     if (avahi_entry_group_is_empty(ctx->group)) {
         char cpus[32], jobs[32], machine[64] = "cc_machine=", version[64] = "cc_version=", *m, *v;
 
-        snprintf(cpus, sizeof(cpus), "cpus=%i", ctx->n_cpus);
-        snprintf(jobs, sizeof(jobs), "jobs=%i", ctx->n_jobs);
+        snprintf_(cpus, sizeof(cpus), "cpus=%i", ctx->n_cpus);
+        snprintf_(jobs, sizeof(jobs), "jobs=%i", ctx->n_jobs);
         v = dcc_get_gcc_version(version+11, sizeof(version)-11);
         m = dcc_get_gcc_machine(machine+11, sizeof(machine)-11);
 

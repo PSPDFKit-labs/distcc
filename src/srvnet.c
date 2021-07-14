@@ -132,7 +132,7 @@ int dcc_socket_listen(int port, int *fd_out, const char *listen_addr)
     }
 
     /* getaddrinfo wants a string for the service name */
-    snprintf(portname, sizeof portname, "%d", port);
+    snprintf_(portname, sizeof portname, "%d", port);
 
     /* Set-up hints structure.  */
     memset(&hints, 0, sizeof(hints));

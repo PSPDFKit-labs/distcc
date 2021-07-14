@@ -164,9 +164,9 @@ static int write_hosts(struct daemon_data *d) {
             /* Not yet fully resolved */
             continue;
 	if (h->address.proto == AVAHI_PROTO_INET6)
-	    snprintf(t, sizeof(t), "[%s]:%u/%i\n", avahi_address_snprint(a, sizeof(a), &h->address), h->port, h->n_jobs);
+	    snprintf_(t, sizeof(t), "[%s]:%u/%i\n", avahi_address_snprint(a, sizeof(a), &h->address), h->port, h->n_jobs);
 	else
-	    snprintf(t, sizeof(t), "%s:%u/%i\n", avahi_address_snprint(a, sizeof(a), &h->address), h->port, h->n_jobs);
+	    snprintf_(t, sizeof(t), "%s:%u/%i\n", avahi_address_snprint(a, sizeof(a), &h->address), h->port, h->n_jobs);
 
         if (dcc_writex(d->fd, t, strlen(t)) != 0) {
             rs_log_crit("write() failed: %s\n", strerror(errno));
